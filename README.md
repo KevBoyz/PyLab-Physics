@@ -1,2 +1,2 @@
 # PyLab-Physics
- Physic simulations
+ Physic simulations with Python using pygame
