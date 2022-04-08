@@ -50,7 +50,6 @@ class Car(Sprite):
 
 
 window = pygame.display.set_mode((900, 630))
-window.fill((5, 5, 5))
 bg = scale(load('../Sprites/space-bg.jpg'), (900, 630))
 chao = GroupSingle(Chao())
 car = GroupSingle(Car())
