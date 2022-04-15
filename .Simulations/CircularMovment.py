@@ -25,8 +25,8 @@ class Ball(Sprite):
 
     def update(self):
         self.angle += 0.07
-        position = pygame.Vector2((math.cos(self.angle * 3) * self.ray) + 415,
-                                  (math.sin(self.angle * 2) * self.ray) + 300)
+        position = pygame.Vector2((math.cos(self.angle) * self.ray) + 415,
+                                  (math.sin(self.angle) * self.ray) + 300)
         self.rect = position
 
 
