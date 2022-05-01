@@ -51,7 +51,7 @@ class Ball(pygame.sprite.Sprite):
 
 
     def update(self):
-        if self.y > 850:
+        if self.y > 950 or self.y < -100:
             self.state = 'dead'
         if pygame.sprite.groupcollide(ball1, ground, False, False):
             if self.state == 'lanced':
@@ -73,8 +73,7 @@ class Ball(pygame.sprite.Sprite):
         self.draw()
 
 
-ball1 = pygame.sprite.GroupSingle(Ball(45, 30, blue))
-# ball2 = pygame.sprite.GroupSingle(Ball(155, 235, 10, red, 0, 7, 7, 8))
+ball1 = pygame.sprite.GroupSingle(Ball(45, 20, blue))
 ground = pygame.sprite.GroupSingle(Ground())
 while True:
     clock.tick(20)

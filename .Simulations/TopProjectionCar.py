@@ -43,6 +43,10 @@ class Car:
     def move_forward(self):
         self.vel = min(self.vel + self.acceleration, self.max_vel)
         self.move()
+        
+    def move_backward(self):
+        self.vel = max(self.vel - self.acceleration * 2, -self.max_vel)
+        self.move()
 
     def move(self):
         radians = math.radians(self.angle)
@@ -50,25 +54,28 @@ class Car:
         horizontal = math.sin(radians) * self.vel
         self.y -= vertical
         self.x -= horizontal
-        # pygame.draw.line(window, (0, 255, 0), (self.x + 20, self.y + 23), (self.x + 20, self.y + 23 + 75 * 2))
-        # pygame.draw.line(window, (0, 255, 0), (self.x, self.y + 5), (self.x, self.y + 36))
-        pygame.draw.line(window, (0, 255, 0), (self.x + 2, self.y + 5), (113 - 39, 113 - 9))
+        # pygame.draw.line(window, (0, 255, 0), (self.x + 2, self.y + 5), (113 - 39, 113 - 9))
+
         pygame.draw.line(window, (255, 0, 0), (113 - 39, 113 - 9), (113 - 39, 113 * 2))
-        pygame.draw.line(window, (0, 0, 255), (113 - 39, 113 - 9), (180, 113 - 9))
+        pygame.draw.line(window, (255, 0, 0), (113 - 39, 113 * 2), (113 - 39 + 113, 113 * 2))
+        pygame.draw.line(window, (255, 0, 0), (113 - 39, 113 * 2), (113 - 39 - 113, 113 * 2))
+        pygame.draw.line(window, (255, 0, 0), (113 - 39, 113 * 2), (113 - 39, 113 * 2 + 113 - 7))
+
+        pygame.draw.line(window, (0, 0, 255), (113 - 39 + 113, 113 * 2), (113 - 39, 113 - 9))
 
         self.points.append((self.x + 10, self.y + 18))
         try:
+            pass
             pygame.draw.lines(window, (0, 0, 0), False, self.points, 2)
         except:
             pass
 
     def rotate(self, left=False, right=False):
-        #if self.vel == 0:
-        #   pass
-        #else:
+        if self.vel == 0:
+           pass
+        else:
             if left:
                 self.angle += self.rotation_vel
-                self.angle %= 360
                 if self.angle >= 0:
                     self.angulation = min(+self.angle % 360 / 4, 86)
                 else:
@@ -91,12 +98,13 @@ class Car:
         keys = pygame.key.get_pressed()
         if keys[pygame.K_w]:
             self.move_forward()
+        elif keys[pygame.K_s]:
+            self.move_backward()
         if keys[pygame.K_d]:
             self.rotate(right=True)
         if keys[pygame.K_a]:
             self.rotate(left=True)
         self.reduce_speed()
-        print(self.angulation)
 
 
 class PlayerCar(Car):

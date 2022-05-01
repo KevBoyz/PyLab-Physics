@@ -9,7 +9,7 @@ from pygame.transform import scale
 pygame.init()
 
 
-class Chao(Sprite):
+class Chao(Sprite):  # Solo
     def __init__(self):
         super().__init__()
         self.image = load('../Sprites/chao.png')
@@ -23,7 +23,7 @@ class Car(Sprite):
         self.rect = self.image.get_rect(center=(33, 343))
         self.time = 0
         self.a = 0.5
-        self.stop = False
+        self.stop = False  # State
 
     def update(self):
         speed = self.a * self.time

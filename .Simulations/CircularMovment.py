@@ -1,5 +1,4 @@
 import pygame
-
 from common import *
 from pygame.locals import QUIT, K_a, K_d, K_SPACE
 from pygame.image import load
