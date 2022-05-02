@@ -19,7 +19,7 @@ FONT = pygame.font.SysFont("comicsans", 16)
 class Planet:
     AU = 149.6e6 * 1000
     G = 6.67428e-11
-    SCALE = 250 / AU  # 1AU = 100 pixels
+    SCALE = 250 / AU
     TIMESTEP = 3600 * 24  # 1 day
 
     def __init__(self, x, y, radius, color, mass):
@@ -48,7 +48,12 @@ class Planet:
                 y = y * self.SCALE + HEIGHT / 2
                 updated_points.append((x, y))
 
+
         pygame.draw.circle(win, self.color, (x, y), self.radius)
+        try:
+            pygame.draw.lines(WIN, self.color, False, updated_points, 2)
+        except:
+            pass
 
         if not self.sun:
             distance_text = FONT.render(f"{round(self.distance_to_sun / 1000, 1)}km", 1, WHITE)
