@@ -104,6 +104,7 @@ def main():
 
     mars = Planet(-1.524 * Planet.AU, 0, 12, RED, 6.39 * 10 ** 23)
     mars.y_vel = 24.077 * 1000
+    
 
     mercury = Planet(0.387 * Planet.AU, 0, 8, DARK_GREY, 3.30 * 10 ** 23)
     mercury.y_vel = -47.4 * 1000
