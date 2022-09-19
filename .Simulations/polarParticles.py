@@ -32,6 +32,8 @@ class Particle:
         self.polarity = polarity
         self.x, self.y = pos
         self.fx, self.fy = 0, 0
+        self.r = r = 150 * self.polarity
+        self.r_origin = self.r
 
     def draw(self, win):
         x = self.x
@@ -49,25 +51,28 @@ class Particle:
                 f = 2 * 1/1
             if self.polarity <= -1 and p.polarity >= 1:
                 if d > 0:
-                    self.fx += f * dx 
-                    self.fy += f * dy
+                    self.fx += (f * dx) * p.polarity 
+                    self.fy += (f * dy) * p.polarity 
                 self.x += self.fx/500
                 self.y += self.fy/500
             elif self.polarity <= -1 and p.polarity <= -1:
                 if d <= 50 and d > 0:
-                    self.fx -= f * dx * 2
-                    self.fy -= f * dy * 2
+                    self.fx += (f * dx * 2) * p.polarity 
+                    self.fy += (f * dy * 2) * p.polarity 
                 self.x += self.fx/500
                 self.y += self.fy/500
             elif self.polarity >= 1 and p.polarity >= 1:
-                if d <= 150 * self.polarity and d > 0:
-                    self.fx += (f * dx/5)
-                    self.fy += (f * dy/5)
+                if self.r < p.r:
+                    self.r = p.r
+                if d <= self.r and d > 0:
+                    self.fx += (f * dx)/2
+                    self.fy += (f * dy)/2
                 else:
                     self.fx = 0
                     self.fy = 0
                 self.x += self.fx
                 self.y += self.fy
+                self.r = self.r_origin
             
 def main():
     run = True
@@ -76,10 +81,10 @@ def main():
     particles = []
     for c in range(0, 20): # atoms
         particles.append(Particle(rand(), RED, 6, 1))
-    for c in range(0, 10): # eletrons
+    for c in range(0, 5): # eletrons
         particles.append(Particle(rand(), GREEN, 5, -1))
-    for c in range(0, 15): # cations
-        particles.append(Particle(rand(), YELLOW, 7, 3))
+    for c in range(0, 1): # cations
+        particles.append(Particle(rand(), YELLOW, 7, 2))
     for c in range(0, 5): # anions 
         particles.append(Particle(rand(), PURPLE, 5, -4))
     for c in range(0, 0): # neutrons
