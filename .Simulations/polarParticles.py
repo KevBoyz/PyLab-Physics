@@ -15,6 +15,7 @@ GREEN = (0, 255, 0)
 BLUE = (100, 149, 237)
 RED = (188, 39, 50)
 DARK_GREY = (80, 78, 81)
+PURPLE = (128,0,128)
 
 FONT = pygame.font.SysFont("comicsans", 16)
 
@@ -43,25 +44,25 @@ class Particle:
             dy = (self.y - p.y) * self.polarity
             d = math.sqrt(dx ** 2 + dy ** 2)
             if d > 0:
-                f = 2 * 1/d
+                f = 3 * 2/d
             else:
                 f = 2 * 1/1
-            if self.polarity == -1 and p.polarity == 1:
+            if self.polarity <= -1 and p.polarity >= 1:
                 if d > 0:
-                    self.fx += f * dx
+                    self.fx += f * dx 
                     self.fy += f * dy
-                self.x += self.fx/1
-                self.y += self.fy/1
-            elif self.polarity == -1 and p.polarity == -1:
+                self.x += self.fx/500
+                self.y += self.fy/500
+            elif self.polarity <= -1 and p.polarity <= -1:
                 if d <= 50 and d > 0:
-                    self.fx -= (f * dx)/1
-                    self.fy -= (f * dy)/1
-                self.x += self.fx/1000
-                self.y += self.fy/1000
-            elif self.polarity == 1 and p.polarity == 1:
-                if d <= 150 and d > 0:
-                    self.fx += f * dx
-                    self.fy += f * dy
+                    self.fx -= f * dx * 2
+                    self.fy -= f * dy * 2
+                self.x += self.fx/500
+                self.y += self.fy/500
+            elif self.polarity >= 1 and p.polarity >= 1:
+                if d <= 150 * self.polarity and d > 0:
+                    self.fx += (f * dx/5)
+                    self.fy += (f * dy/5)
                 else:
                     self.fx = 0
                     self.fy = 0
@@ -73,10 +74,19 @@ def main():
     clock = pygame.time.Clock()
 
     particles = []
-    for c in range(0, 50):
+    for c in range(0, 20): # atoms
         particles.append(Particle(rand(), RED, 6, 1))
-    for c in range(0, 20):
+    for c in range(0, 10): # eletrons
         particles.append(Particle(rand(), GREEN, 5, -1))
+    for c in range(0, 15): # cations
+        particles.append(Particle(rand(), YELLOW, 7, 3))
+    for c in range(0, 5): # anions 
+        particles.append(Particle(rand(), PURPLE, 5, -4))
+    for c in range(0, 0): # neutrons
+        particles.append(Particle(rand(), BLUE, 4, 0))
+
+
+
 
     while run:
         clock.tick(60)
