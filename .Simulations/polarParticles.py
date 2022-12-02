@@ -25,7 +25,6 @@ def rand():
 
 
 class Particle:
-    
     def __init__(self, pos, color, radius, polarity):
         self.color = color
         self.radius = radius
@@ -56,7 +55,7 @@ class Particle:
                 self.x += self.fx/500
                 self.y += self.fy/500
             elif self.polarity <= -1 and p.polarity <= -1:
-                if d <= 50 and d > 0:
+                if 50 >= d > 0:
                     self.fx += (f * dx * 2) * p.polarity 
                     self.fy += (f * dy * 2) * p.polarity 
                 self.x += self.fx/500
@@ -64,7 +63,7 @@ class Particle:
             elif self.polarity >= 1 and p.polarity >= 1:
                 if self.r < p.r:
                     self.r = p.r
-                if d <= self.r and d > 0:
+                if self.r >= d > 0:
                     self.fx += (f * dx)/2
                     self.fy += (f * dy)/2
                 else:
@@ -73,30 +72,26 @@ class Particle:
                 self.x += self.fx
                 self.y += self.fy
                 self.r = self.r_origin
-            
+
+
 def main():
     run = True
     clock = pygame.time.Clock()
-
     particles = []
-    for c in range(0, 20): # atoms
+    for c in range(0, 20):  # atoms
         particles.append(Particle(rand(), RED, 6, 1))
-    for c in range(0, 5): # eletrons
+    for c in range(0, 5):  # eletrons
         particles.append(Particle(rand(), GREEN, 5, -1))
-    for c in range(0, 1): # cations
+    for c in range(0, 1):  # cations
         particles.append(Particle(rand(), YELLOW, 7, 2))
-    for c in range(0, 5): # anions 
+    for c in range(0, 5):  # anions
         particles.append(Particle(rand(), PURPLE, 5, -4))
-    for c in range(0, 0): # neutrons
+    for c in range(0, 0):  # neutrons
         particles.append(Particle(rand(), BLUE, 4, 0))
-
-
-
 
     while run:
         clock.tick(60)
         WIN.fill((0, 0, 0))
-
 
         for particle in particles:
             particle.draw(WIN)
@@ -109,6 +104,5 @@ def main():
         pygame.display.update()
 
     pygame.quit()
-
 
 main()

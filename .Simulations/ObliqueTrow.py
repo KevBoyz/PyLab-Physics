@@ -1,9 +1,9 @@
 import pygame
+from math import sqrt
 
 red = (255, 0, 0)
 green = (0, 255, 0)
 blue = (0, 0, 255)
-
 
 pygame.init()
 clock = pygame.time.Clock()
@@ -19,71 +19,42 @@ class Ground(pygame.sprite.Sprite):
         self.rect = self.image.get_rect(center=(10, 610))
 
 
-class Ball(pygame.sprite.Sprite):
-    def __init__(self, angle, vel, color, mass=1, radius=10, gravity=1.5, x=10, y=466):
-        super().__init__()
-        self.x = x
-        self.y = y
-        self.rect = pygame.Rect((self.x, self.y), (50, 100))
-        self.radius = radius
-        self.color = color
-        self.angle = min(angle, 90)
-        self.mass = mass
-        self.xvel = self.yvel = vel
-        self.gravity = gravity
-        self.time = 0
-        self.state = 'normal'
-        self.route = []
+class Cannon:
 
-    def draw(self):
-        pygame.draw.circle(window, self.color, (self.x, self.y), self.radius)
-        try:
-            pygame.draw.lines(window, green, False, self.route, 2)
-        except ValueError:
-            pass
 
-    def lance(self):
-        self.route.append((self.x, self.y))
-        self.yvel -= self.time * self.gravity
-        self.x += self.xvel
-        self.y -= self.yvel
-        self.time += 1
-
+    def __init__(self):
+        self.x = 10
+        self.y = 466
+        self.lines = []
+        self.last_pos = 0
 
     def update(self):
-        if self.y > 950 or self.y < -100:
-            self.state = 'dead'
-        if pygame.sprite.groupcollide(ball1, ground, False, False):
-            if self.state == 'lanced':
-                self.state = 'normal'
-                self.x -= self.xvel
-                self.y += self.yvel + 2
-                self.yvel = self.xvel
-                self.time = 0
-            else:
-                self.y -= 1
-        else:
-            if self.state == 'normal':
-                if pygame.key.get_pressed()[pygame.K_SPACE]:
-                    self.state = 'lanced'
-            elif self.state == 'lanced':
-                self.lance()
-
-        self.rect = pygame.Rect((self.x, self.y), (self.radius, self.radius))
-        self.draw()
+        for event in pygame.event.get():
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                self.last_pos = pygame.mouse.get_pos()
+                if len(self.lines) > 0:
+                    self.lines.pop()
+                self.lines.append(self.last_pos)
+        for pos in self.lines:
+            x = pos[0]
+            y = pos[1]
+            dx = x - self.x
+            dy = y - self.y
+            d = sqrt(dx**2 + dy**2)
+            print(d, dx, dy)
+            pygame.draw.line(window, red, (self.x, self.y), (x, y))
 
 
-ball1 = pygame.sprite.GroupSingle(Ball(45, 20, blue))
 ground = pygame.sprite.GroupSingle(Ground())
+cannon = Cannon()
 while True:
-    clock.tick(20)
+    clock.tick(-1)
     window.blit(bg, (0, 0))
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
     ground.draw(window)
-    ball1.update()
-    # ball2.update()
+    cannon.update()
     pygame.display.update()
 
 
